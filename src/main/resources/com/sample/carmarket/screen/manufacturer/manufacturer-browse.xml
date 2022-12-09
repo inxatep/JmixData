@@ -48,6 +48,7 @@
                         <button id="createBtn" action="table.create"/>
                         <button id="editBtn" action="table.edit"/>
                         <button id="removeBtn" action="table.remove"/>
+                        <button id="calculateCars" caption="msg:///CalculateCars.caption"/>
                     </buttonsPanel>
                 </table>
                 <hbox id="lookupActions" spacing="true" visible="false">

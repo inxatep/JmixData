@@ -1,0 +1,100 @@
+<window xmlns="http://jmix.io/schema/ui/window"
+        xmlns:c="http://jmix.io/schema/ui/jpql-condition"
+        caption="msg://carBrowse.caption"
+        focusComponent="table">
+    <data>
+        <collection id="carsDc"
+                    class="com.sample.carmarket.entity.Car">
+            <fetchPlan extends="_base">
+                <property name="model" fetchPlan="_base">
+                    <property name="manufacturer" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
+            <loader id="carsDl">
+                <query>
+                    <![CDATA[select e from Car e]]>
+                </query>
+            </loader>
+        </collection>
+        <instance id="carDc"
+                  class="com.sample.carmarket.entity.Car">
+            <fetchPlan extends="_base">
+                <property name="model" fetchPlan="_base">
+                    <property name="manufacturer" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="save" icon="OK" caption="msg:///actions.Ok" shortcut="CTRL-ENTER"/>
+        <action id="cancel" icon="CANCEL" caption="msg:///actions.Cancel" description="Esc"/>
+    </actions>
+    <dialogMode height="600" width="800"/>
+    <layout>
+        <split id="split" height="100%" orientation="horizontal" reversePosition="true" width="100%">
+            <vbox id="lookupBox" expand="table" height="100%" margin="false,true,false,false" spacing="true">
+                <filter id="filter" dataLoader="carsDl">
+                    <properties include=".*"/>
+                </filter>
+                <groupTable id="table"
+                            width="100%"
+                            dataContainer="carsDc">
+                    <actions>
+                        <action id="create" type="create"/>
+                        <action id="edit" type="edit"/>
+                        <action id="remove" type="remove"/>
+                    </actions>
+                    <columns>
+                        <column id="registration_number" caption="msg://registration_number.caption"/>
+                        <column id="model" caption="msg://model.caption"/>
+                        <column id="production_year" caption="msg://production_year.caption"/>
+                        <column id="status" caption="msg://status.caption"/>
+                        <column id="date_of_sale" caption="msg://date_of_sale.caption"/>
+                    </columns>
+                    <simplePagination/>
+                    <buttonsPanel id="buttonsPanel"
+                                  alwaysVisible="true">
+                        <button id="createBtn" action="table.create"/>
+                        <button id="editBtn" action="table.edit"/>
+                        <button id="removeBtn" action="table.remove"/>
+                        <button id="markAsSold" caption="msg:///MarkAsSold.caption"/>
+                    </buttonsPanel>
+                </groupTable>
+                <hbox id="lookupActions" spacing="true" visible="false">
+                    <button action="lookupSelectAction"/>
+                    <button action="lookupCancelAction"/>
+                </hbox>
+            </vbox>
+            <vbox id="editBox" height="100%" margin="false,false,false,true" expand="fieldGroupBox" spacing="true">
+                <scrollBox id="fieldGroupBox">
+                    <form id="form" dataContainer="carDc">
+                        <column width="350px">
+                            <textField id="registration_numberField" property="registration_number"
+                                       caption="msg:///registration_numberField1.caption"/>
+                            <entityPicker id="modelField" property="model" caption="msg://modelField.caption">
+                                <actions>
+                                    <action id="entityLookup" type="entity_lookup"/>
+                                    <action id="entityClear" type="entity_clear"/>
+                                </actions>
+                            </entityPicker>
+                            <textField id="production_yearField" property="production_year"
+                                       caption="msg://production_yearField.caption"/>
+                            <comboBox id="statusField" property="status" caption="msg://statusField.caption"/>
+                            <dateField id="date_of_saleField" property="date_of_sale"
+                                       caption="msg://date_of_saleField.caption"/>
+                        </column>
+                    </form>
+                </scrollBox>
+                <hbox id="actionsPane" spacing="true" visible="false">
+                    <button id="saveBtn" action="save"/>
+                    <button id="cancelBtn" action="cancel"/>
+                </hbox>
+            </vbox>
+        </split>
+    </layout>
+</window>
